@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: user
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/userdb
+      database: userdb
+#      uri: mongodb+srv://elyasahmadiiran2022_db_user:UFBzBaOw205rOuYw@cluster0.7wxj3ln.mongodb.net/?appName=Cluster0
+
+server:
+  port: 8081

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    #    url: jdbc:postgresql://ep-solitary-voice-ahq6wtae-pooler.c-3.us-east-1.aws.neon.tech/neondb
+    url: jdbc:postgresql://localhost:5432/product
+    username: admin
+    password: admin
+  #    password: npg_TQbYCK6s3iRU
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8082
