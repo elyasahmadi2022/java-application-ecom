@@ -1,10 +1,10 @@
 spring:
   datasource:
     #    url: jdbc:postgresql://ep-solitary-voice-ahq6wtae-pooler.c-3.us-east-1.aws.neon.tech/neondb
-    url: jdbc:postgresql://localhost:5432/product
-    username: admin
-    password: admin
-  #    password: npg_TQbYCK6s3iRU
+    url: jdbc:postgresql://localhost:5432/order
+    username: ${USER_NAME}
+    password: ${USER_PASSWORD}
+    #    password: npg_TQbYCK6s3iRU
   jpa:
     show-sql: true
     hibernate:
@@ -14,5 +14,15 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 server:
-  port: 8082
+  port: 8083
