@@ -21,6 +21,14 @@ public class productController {
     public ResponseEntity<List<ProductResponse>> getProducts() {
             return new ResponseEntity<>(productServices.getProducts(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable String id) {
+        System.out.println(id);
+        return productServices.getProductById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest product) {
         return new ResponseEntity<>(productServices.createProduct(product), HttpStatus.CREATED);

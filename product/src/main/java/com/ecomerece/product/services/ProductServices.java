@@ -6,6 +6,7 @@ import com.ecomerece.product.model.Product;
 import com.ecomerece.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,9 @@ public class ProductServices {
         return productRepository.findByActiveTrue().stream()
                 .map(this::mapProductToProductResponse)
                 .collect(Collectors.toList());
+    }
+    public Optional<ProductResponse> getProductById(String id){
+       return productRepository.findByIdAndActiveTrue(Long.valueOf(id)).map(this::mapProductToProductResponse);
     }
     public ProductResponse createProduct(ProductRequest productRequest) {
         Product product = new Product();

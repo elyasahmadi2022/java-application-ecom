@@ -1,7 +1,11 @@
 package com.ecomerece.order.services;
 
 
+import com.ecomerece.order.clients.ProductServiceClient;
+import com.ecomerece.order.clients.UserServiceClient;
 import com.ecomerece.order.dto.CartItemRequest;
+import com.ecomerece.order.dto.ProductResponse;
+import com.ecomerece.order.dto.UserResponse;
 import com.ecomerece.order.model.CartItem;
 import com.ecomerece.order.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
@@ -10,16 +14,28 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class CartService {
     private  final CartItemRepository cartItemRepository;
+    private final ProductServiceClient productServiceClient;
+    private  final UserServiceClient userServiceClient;
     public boolean addToCart(String userId, CartItemRequest request){
-        CartItem exsitingCartItem = cartItemRepository.findByUserIdAndProductId(userId,request.getProductId());
+        ProductResponse productResponse = productServiceClient.getProductDetails(String.valueOf(request.getProductId()));
 
+        if (productResponse == null){
+            return false;
+        }
+        if(productResponse.getStockQuantity() < request.getQuantity()){
+            return false;
+        }
+        UserResponse userResponse = userServiceClient.getUserDetails(userId);
+        if (userResponse == null){
+            return false;
+        }
+        CartItem exsitingCartItem = cartItemRepository.findByUserIdAndProductId(userId, productResponse.getId());
         if (exsitingCartItem != null){
             exsitingCartItem.setQuantity(exsitingCartItem.getQuantity() + request.getQuantity());
             exsitingCartItem.setPrice(exsitingCartItem.getPrice().multiply(BigDecimal.valueOf(exsitingCartItem.getQuantity())));

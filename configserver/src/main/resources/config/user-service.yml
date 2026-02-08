@@ -5,7 +5,7 @@ spring:
     host: localhost
     port: 5672
   mongodb:
-    uri: mongodb://localhost:27017/user_db
+    uri: mongodb://localhost:27017/userdb
   #      uri: mongodb+srv://elyasahmadiiran2022_db_user:UFBzBaOw205rOuYw@cluster0.7wxj3ln.mongodb.net/?appName=Cluster0
 server:
   port: 8081
@@ -15,3 +15,16 @@ management:
     web:
       exposure:
         include: '*'
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  file:
+    name: logs/{spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7
