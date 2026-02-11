@@ -1,0 +1,50 @@
+#spring:
+#  cloud:
+#    gateway:
+#      server:
+#        webflux:
+#          routes:
+#            - id: user-service
+#              uri: http://user-service
+#              predicates:
+#                - Path=/api/v1/users/**
+#            - id: product-service
+#              uri: http://product-service
+#              predicates:
+#                - Path=/api/v1/products/**
+#            - id: order-service
+#              uri: http://order-service
+#              predicates:
+#                - Path=/api/v1/order/**, /api/v1/cart/**
+#            - id: eureka-service
+#              uri: http://localhost:8761
+#              predicates:
+#                - Path=/eureka/main
+#              filters:
+#                - SetPath=/
+#            - id: eureka-service-static
+#              uri: http://localhost:8761
+#              predicates:
+#                - Path=/eureka/**
+
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    sampling:
+      probability: 0.1
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+    org.springframework.cloud.gateway: TRACE

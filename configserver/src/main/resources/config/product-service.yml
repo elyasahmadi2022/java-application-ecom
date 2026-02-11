@@ -26,6 +26,9 @@ management:
     web:
       exposure:
         include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
 server:
   port: 8082
 eureka:
@@ -35,10 +38,10 @@ eureka:
     eureka-server-port: 8761
     service-url:
       defaultZone: http://localhost:8761/eureka/
-  logging:
-    file:
-      name: logs/{spring.application.name}.log
-    logback:
-      rollingpolicy:
-        max-file-size: 5MB
-        max-history: 7
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7
