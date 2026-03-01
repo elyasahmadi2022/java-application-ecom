@@ -1,19 +1,16 @@
 spring:
   application:
     name: configserver
-  profiles:
-    active: native
   rabbitmq:
-    port: 5672
-    host: localhost
-    username: guest
-    password: guest
+    port: ${RABBITMQ_PORT}
+    host: ${RABBITMQ_HOST}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   cloud:
     config:
       server:
         native:
           search-locations: file:///D:\java-application-ecom\configserver\src\main\resources\config
-
 server:
   port: 8888
 management:

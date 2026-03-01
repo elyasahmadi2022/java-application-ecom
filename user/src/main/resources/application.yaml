@@ -1,7 +1,5 @@
 spring:
   application:
     name: user-service
-  profiles:
-    active: native
   config:
     import: optional:configserver:http://localhost:8888

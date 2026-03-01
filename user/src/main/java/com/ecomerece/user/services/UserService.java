@@ -1,6 +1,7 @@
 package com.ecomerece.user.services;
 
 
+import com.ecomerece.user.KeyCloakAdminService;
 import com.ecomerece.user.dto.AddressDTO;
 import com.ecomerece.user.dto.UserRequest;
 import com.ecomerece.user.dto.UserResponse;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
    private final UserRepository userRepository;
-
+   private final KeyCloakAdminService keyCloakAdminService;
     public List<UserResponse> getUsers() {
         return  userRepository.findAll().stream().map(this::mapToUserResponse).collect(Collectors.toList());
     }
@@ -26,9 +27,12 @@ public class UserService {
     }
     public User createUser(UserRequest requestUser){
         User user = new User();
+        String token = keyCloakAdminService.getAdminAccessToken();
+        String userId = keyCloakAdminService.createUser(token, requestUser);
+        user.setKeycloakId(userId);
         updateUserFromRequest(user,requestUser);
-       User createUser =  userRepository.save(user);
-       return createUser;
+        keyCloakAdminService.assignRealmRoleToUser(requestUser.getUsername(), "USER", userId);
+        return userRepository.save(user);
     }
     public boolean updateUser(String id, UserRequest updatedRequestUser){
        return  userRepository.findById(id).map(currentUser -> {

@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: notification
+  cloud:
+    function:
+      definition: orderCreatedEventConsumer
+    stream:
+      function:
+        definition: orderCreatedEventConsumer
+      bindings:
+        orderCreatedEventConsumer-in-0:
+          destination: order.exchange
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: kafka:9092
+
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#  rabbitmq:
+#    username: ${RABBITMQ_USERNAME:guest}
+#    password: ${RABBITMQ_PASSWORD:guest}
+#    host: ${RABBITMQ_HOST:localhost}
+#    port: ${RABBITMQ_PORT:5672}
+#    virtual-host: ${RABBITMQ_VHOST:guest}
+#    connection-timeout: 30000
+server:
+  port: 8084
+# note: this is not configuration, just values for using them in message rabbitmq
+#rabbitmq:
+#  exchange:
+#    name: order.exchange
+#  queue:
+#    name: order.queue
+#  routing:
+#    key: order.tracking

@@ -1,0 +1,95 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        saveOrder-out-0:
+          destination: order.exchange
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: kafka:9092
+  datasource:
+    url: ${DB_URL_ORDER}
+    username: ${USER_NAME}
+    password: ${USER_PASSWORD}
+    #    password: npg_TQbYCK6s3iRU
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  observations:
+    http:
+      client:
+        enabled: true
+server:
+  port: 8083
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7
+# note: this is not configuration, just values for using them in message rabbitmq
+rabbitmq:
+  exchange:
+    name: order.exchange
+  queue:
+    name: order.queue
+  routing:
+    key: order.tracking
+# circuit breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowType: count_based
+    retry:
+      instances:
+        retryBreaker:
+          maxAttempts: 5
+          waitDuration: 500ms
+    rateLimiter:
+      instances:
+        rateLimiterBreaker:
+          timeout-duration: 0
+          limit-refresh-period: 4s
+          limit-for-period: 2

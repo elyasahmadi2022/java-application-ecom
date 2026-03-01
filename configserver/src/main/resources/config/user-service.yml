@@ -6,7 +6,6 @@ spring:
     port: 5672
   mongodb:
     uri: mongodb://localhost:27017/userdb
-  #      uri: mongodb+srv://elyasahmadiiran2022_db_user:UFBzBaOw205rOuYw@cluster0.7wxj3ln.mongodb.net/?appName=Cluster0
 server:
   port: 8081
 
@@ -31,3 +30,11 @@ logging:
     rollingpolicy:
       max-file-size: 5MB
       max-history: 7
+keycloak:
+  admin:
+    username: user
+    password: user123
+    server-url: http://localhost:8444
+    realm: app-gateway
+    client-id: ecom-app-client-pkce
+    client-uid: 31647329-82fc-449d-8097-40b710f33fb2

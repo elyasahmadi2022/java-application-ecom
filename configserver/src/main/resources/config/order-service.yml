@@ -1,9 +1,18 @@
 spring:
+  cloud:
+    stream:
+      bindings:
+        saveOrder-out-0:
+          destination: order.exchange
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: localhost:9092
   datasource:
     #    url: jdbc:postgresql://ep-solitary-voice-ahq6wtae-pooler.c-3.us-east-1.aws.neon.tech/neondb
-    url: jdbc:postgresql://localhost:5432/order
-    username: ${USER_NAME}
-    password: ${USER_PASSWORD}
+    url: ${DB_URL_ORDER}
+    username: admin
+    password: admin
     #    password: npg_TQbYCK6s3iRU
   jpa:
     show-sql: true
@@ -15,10 +24,11 @@ spring:
       hibernate:
         format_sql: true
   rabbitmq:
-    username: guest
-    password: guest
-    host: localhost
-    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOSTt}
+    port: ${RABBITMQ_PORT}
+    connection-timeout: 30000
 management:
   endpoints:
     web:
@@ -28,7 +38,7 @@ management:
     health:
       show-details: always
   health:
-    circuitbreaker:
+    circuitbreakers:
       enabled: true
   tracing:
     enabled: true
@@ -53,3 +63,35 @@ logging:
     rollingpolicy:
       max-file-size: 5MB
       max-history: 7
+# note: this is not configuration, just values for using them in message rabbitmq
+rabbitmq:
+  exchange:
+    name: order.exchange
+  queue:
+    name: order.queue
+  routing:
+    key: order.tracking
+# circuit breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowType: count_based
+    retry:
+      instances:
+        retryBreaker:
+          maxAttempts: 5
+          waitDuration: 500ms
+    rateLimiter:
+      instances:
+        rateLimiterBreaker:
+          timeout-duration: 0
+          limit-refresh-period: 4s
+          limit-for-period: 2

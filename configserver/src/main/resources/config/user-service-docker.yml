@@ -1,0 +1,40 @@
+spring:
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+  mongodb:
+    uri: ${MONGO_URI}
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 7
+keycloak:
+  admin:
+    username: user
+    password: user123
+    server-url: http://keycloak:8080
+    realm: app-gateway
+    client-id: ecom-app-client-pkce
+    client-uid: 31647329-82fc-449d-8097-40b710f33fb2
