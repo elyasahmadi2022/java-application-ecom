@@ -17,7 +17,12 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  zipkin:
+    tracing:
+      export: ${ZIPKIN_URL}
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -37,4 +42,4 @@ keycloak:
     server-url: http://keycloak:8080
     realm: app-gateway
     client-id: ecom-app-client-pkce
-    client-uid: 31647329-82fc-449d-8097-40b710f33fb2
+    client-uid: d715126d-c5a1-424a-b964-16dec0d6e057

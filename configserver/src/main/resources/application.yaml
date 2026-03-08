@@ -6,6 +6,8 @@ spring:
     host: ${RABBITMQ_HOST}
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
+  profiles:
+    active: native
   cloud:
     config:
       server:

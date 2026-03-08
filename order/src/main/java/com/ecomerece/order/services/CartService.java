@@ -29,8 +29,6 @@ public class CartService {
 //    @CircuitBreaker(name = "productService", fallbackMethod = "addToCartFallBack")
     @Retry( name = "retryBreaker", fallbackMethod = "addToCartFallBack")
     public boolean addToCart(String userId, CartItemRequest request){
-       System.out.println("attempt_count "+ attempts_count);
-       attempts_count++;
         ProductResponse productResponse = productServiceClient.getProductDetails(String.valueOf(request.getProductId()));
 
         if (productResponse == null){

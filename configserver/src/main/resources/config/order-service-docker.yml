@@ -46,9 +46,14 @@ management:
     http:
       client:
         enabled: true
+  zipkin:
+    tracing:
+      export: ${ZIPKIN_URL}
 server:
   port: 8083
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true

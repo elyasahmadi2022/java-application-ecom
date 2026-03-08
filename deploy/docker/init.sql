@@ -1,4 +1,2 @@
-SELECT 'CREATE DATABASE order'
-    WHERE NOT EXISTS (
-    SELECT FROM pg_database WHERE datname = 'order'
-)\gexec
+CREATE DATABASE orderdb;
+CREATE DATABASE productdb;

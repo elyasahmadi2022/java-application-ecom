@@ -31,7 +31,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/app-gateway
+          issuer-uri: http://localhost:8444/realms/app-gateway
+          jwk-set-uri: http://keycloak:8080/realms/app-gateway/protocol/openid-connect/certs
 server:
   port: 8080
 management:
@@ -48,7 +49,12 @@ management:
   tracing:
     sampling:
       probability: 0.1
+  zipkin:
+    tracing:
+      export: ${ZIPKIN_URL}
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true

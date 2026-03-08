@@ -49,6 +49,8 @@ management:
     sampling:
       probability: 0.1
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true

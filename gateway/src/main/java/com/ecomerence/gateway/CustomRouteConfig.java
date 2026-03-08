@@ -38,19 +38,19 @@ public class CustomRouteConfig {
                                 .setFallbackUri("forward:/fallback/products")
                         ))
 //                        .filters(f -> f.rewritePath("/products(?<segment>/?.*)", "/api/v1/products${segment}"))
-                        .uri("http://localhost:8082"))
+                        .uri("lb://PRODUCT-SERVICE"))
                 .route("user-service", r -> r
                         .path("/api/v1/users/**")
 //                        .filters(f -> f.rewritePath("/users(?<segment>/?.*)", "/api/v1/users${segment}"))
-                        .uri("http://localhost:8081"))
+                        .uri("lb://USER-SERVICE"))
                 .route("order-service", r -> r
                         .path("/api/v1/orders/**", "/api/v1/cart/**")
 //                        .filters(f -> f.rewritePath("/(?<segment>/?.*)", "/api/v1${segment}"))
-                        .uri("http://localhost:8083"))
+                        .uri("lb://ORDER-SERVICE"))
                 .route("eureka-serice", r -> r
                         .path("/eureka/main")
 //                        .filters(f -> f.rewritePath("/eureka/main", "/"))
-                        .uri("http://localhost:8761"))
+                        .uri("http://eureka-server:8761"))
                 .route("eureka-service-static", r -> r
                         .path("/eureka/**")
                         .uri("http://localhost:8761"))

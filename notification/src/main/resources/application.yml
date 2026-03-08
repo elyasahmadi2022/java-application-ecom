@@ -6,7 +6,7 @@ spring:
       definition: orderCreatedEventConsumer
     stream:
       function:
-        definition: orderCreatedEventConsumer
+#        definition: orderCreatedEventConsumer
       bindings:
         orderCreatedEventConsumer-in-0:
           destination: order.exchange
